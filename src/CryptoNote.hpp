@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Brofistcoin developers.
 // Licensed under the GNU Lesser General Public License. See LICENSING.md for details.
 
 #pragma once
@@ -12,7 +12,7 @@
 // We define here, as CryptoNoteConfig.h is never included anywhere anymore
 #define ALLOW_DEBUG_COMMANDS 1
 
-namespace bytecoin {
+namespace brofistcoin {
 
 using crypto::Hash;
 using crypto::PublicKey;
@@ -141,37 +141,37 @@ inline bool operator<(const AccountPublicAddress &a, const AccountPublicAddress 
 	return std::tie(a.view_public_key, a.spend_public_key) < std::tie(b.view_public_key, b.spend_public_key);
 }
 
-}  // namespace bytecoin
+}  // namespace brofistcoin
 
 namespace seria {
 class ISeria;
 
-void ser(bytecoin::Hash &v, ISeria &s);
-void ser(bytecoin::KeyImage &v, ISeria &s);
-void ser(bytecoin::PublicKey &v, ISeria &s);
-void ser(bytecoin::SecretKey &v, ISeria &s);
-void ser(bytecoin::KeyDerivation &v, ISeria &s);
-void ser(bytecoin::Signature &v, ISeria &s);
+void ser(brofistcoin::Hash &v, ISeria &s);
+void ser(brofistcoin::KeyImage &v, ISeria &s);
+void ser(brofistcoin::PublicKey &v, ISeria &s);
+void ser(brofistcoin::SecretKey &v, ISeria &s);
+void ser(brofistcoin::KeyDerivation &v, ISeria &s);
+void ser(brofistcoin::Signature &v, ISeria &s);
 
-void ser_members(bytecoin::AccountPublicAddress &v, ISeria &s);
-void ser_members(bytecoin::SendProof &v, ISeria &s);
-void ser_members(bytecoin::TransactionInput &v, ISeria &s);
-void ser_members(bytecoin::TransactionOutput &v, ISeria &s);
-void ser_members(bytecoin::TransactionOutputTarget &v, ISeria &s);
+void ser_members(brofistcoin::AccountPublicAddress &v, ISeria &s);
+void ser_members(brofistcoin::SendProof &v, ISeria &s);
+void ser_members(brofistcoin::TransactionInput &v, ISeria &s);
+void ser_members(brofistcoin::TransactionOutput &v, ISeria &s);
+void ser_members(brofistcoin::TransactionOutputTarget &v, ISeria &s);
 
-void ser_members(bytecoin::CoinbaseInput &v, ISeria &s);
-void ser_members(bytecoin::KeyInput &v, ISeria &s);
+void ser_members(brofistcoin::CoinbaseInput &v, ISeria &s);
+void ser_members(brofistcoin::KeyInput &v, ISeria &s);
 
-void ser_members(bytecoin::KeyOutput &v, ISeria &s);
+void ser_members(brofistcoin::KeyOutput &v, ISeria &s);
 
-void ser_members(bytecoin::TransactionPrefix &v, ISeria &s);
-void ser_members(bytecoin::BaseTransaction &v, ISeria &s);
-void ser_members(bytecoin::Transaction &v, ISeria &s);
+void ser_members(brofistcoin::TransactionPrefix &v, ISeria &s);
+void ser_members(brofistcoin::BaseTransaction &v, ISeria &s);
+void ser_members(brofistcoin::Transaction &v, ISeria &s);
 
-void ser_members(bytecoin::BlockTemplate &v, ISeria &s);
-void ser_members(bytecoin::BlockHeader &v, ISeria &s);
-void ser_members(bytecoin::ParentBlock &v, ISeria &s);
+void ser_members(brofistcoin::BlockTemplate &v, ISeria &s);
+void ser_members(brofistcoin::BlockHeader &v, ISeria &s);
+void ser_members(brofistcoin::ParentBlock &v, ISeria &s);
 
-void ser_members(bytecoin::RawBlock &v, ISeria &s);
-void ser_members(bytecoin::Block &v, ISeria &s);
+void ser_members(brofistcoin::RawBlock &v, ISeria &s);
+void ser_members(brofistcoin::Block &v, ISeria &s);
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Brofistcoin developers.
 // Licensed under the GNU Lesser General Public License. See LICENSING.md for details.
 
 #pragma once
@@ -8,7 +8,7 @@
 
 #include "crypto/crypto.hpp"
 
-namespace bytecoin {
+namespace brofistcoin {
 
 struct network_config {
 	uint32_t connections_count       = 0;
@@ -150,20 +150,20 @@ struct COMMAND_REQUEST_PEER_ID  // TODO - remove this message in next hard fork,
 #endif
 }
 namespace seria {
-void ser_members(bytecoin::network_config &v, seria::ISeria &s);
-void ser_members(bytecoin::basic_node_data &v, seria::ISeria &s);
-void ser_members(bytecoin::CORE_SYNC_DATA &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_HANDSHAKE::request &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_HANDSHAKE::response &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_TIMED_SYNC::request &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_TIMED_SYNC::response &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_PING::request &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_PING::response &v, seria::ISeria &s);
+void ser_members(brofistcoin::network_config &v, seria::ISeria &s);
+void ser_members(brofistcoin::basic_node_data &v, seria::ISeria &s);
+void ser_members(brofistcoin::CORE_SYNC_DATA &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_HANDSHAKE::request &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_HANDSHAKE::response &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_TIMED_SYNC::request &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_TIMED_SYNC::response &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_PING::request &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_PING::response &v, seria::ISeria &s);
 #ifdef ALLOW_DEBUG_COMMANDS
-void ser_members(bytecoin::proof_of_trust &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_REQUEST_STAT_INFO::request &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_REQUEST_STAT_INFO::response &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_REQUEST_NETWORK_STATE::request &v, seria::ISeria &s);
-void ser_members(bytecoin::COMMAND_REQUEST_NETWORK_STATE::response &v, seria::ISeria &s);
+void ser_members(brofistcoin::proof_of_trust &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_REQUEST_STAT_INFO::request &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_REQUEST_STAT_INFO::response &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_REQUEST_NETWORK_STATE::request &v, seria::ISeria &s);
+void ser_members(brofistcoin::COMMAND_REQUEST_NETWORK_STATE::response &v, seria::ISeria &s);
 #endif
 }

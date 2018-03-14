@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Brofistcoin developers.
 // Licensed under the GNU Lesser General Public License. See LICENSING.md for details.
 
 #include "WalletSerializationV1.h"
@@ -49,7 +49,7 @@ struct UnlockTransactionJobDto {
 /*struct WalletTransactionDto {
         WalletTransactionDto() {}
 
-        WalletTransactionDto(const bytecoin::WalletTransaction &wallet) {
+        WalletTransactionDto(const brofistcoin::WalletTransaction &wallet) {
                 state         = wallet.state;
                 timestamp     = wallet.timestamp;
                 block_height  = wallet.block_height;
@@ -61,7 +61,7 @@ struct UnlockTransactionJobDto {
                 extra         = wallet.extra;
         }
 
-        bytecoin::WalletTransactionState state;
+        brofistcoin::WalletTransactionState state;
         uint64_t timestamp;
         uint32_t block_height;
         Hash hash;
@@ -76,7 +76,7 @@ struct UnlockTransactionJobDto {
 struct WalletTransferDto {
         explicit WalletTransferDto(uint32_t version) : amount(0), type(0),
 version(version) {}
-        WalletTransferDto(const bytecoin::WalletTransfer &tr, uint32_t version)
+        WalletTransferDto(const brofistcoin::WalletTransfer &tr, uint32_t version)
 : WalletTransferDto(version) {
                 address = tr.address;
                 amount  = tr.amount;
@@ -90,7 +90,7 @@ version(version) {}
         uint32_t version;
 };*/
 
-/*void serialize(WalletRecordDto &v, bytecoin::ISerializer &s) {
+/*void serialize(WalletRecordDto &v, brofistcoin::ISerializer &s) {
         s(v.spend_public_key, "spend_public_key");
         s(v.spend_secret_key, "spend_secret_key");
         s(v.pending_balance, "pending_balance");
@@ -107,7 +107,7 @@ struct KeysStorage {
 	crypto::PublicKey view_public_key;
 	crypto::SecretKey view_secret_key;
 
-	/*	void serialize(bytecoin::ISerializer & s, const std::string &name) {
+	/*	void serialize(brofistcoin::ISerializer & s, const std::string &name) {
 	            s.begin_object(name);
 
 	            s(creation_timestamp, "creation_timestamp");
@@ -122,7 +122,7 @@ struct KeysStorage {
 	    }*/
 };
 
-/*void serialize(ObsoleteSpentOutputDto &v, bytecoin::ISerializer &s) {
+/*void serialize(ObsoleteSpentOutputDto &v, brofistcoin::ISerializer &s) {
         s(v.amount, "amount");
         s(v.transaction_hash, "transaction_hash");
         s(v.output_in_transaction, "output_in_transaction");
@@ -130,27 +130,27 @@ struct KeysStorage {
         s(v.spending_transaction_hash, "spending_transaction_hash");
 }
 
-void serialize(ObsoleteChangeDto &v, bytecoin::ISerializer &s) {
+void serialize(ObsoleteChangeDto &v, brofistcoin::ISerializer &s) {
         s(v.tx_hash, "transaction_hash");
         s(v.amount, "amount");
 }
 
-void serialize(UnlockTransactionJobDto &v, bytecoin::ISerializer &s) {
+void serialize(UnlockTransactionJobDto &v, brofistcoin::ISerializer &s) {
         s(v.block_height, "block_height");
         s(v.transaction_hash, "transaction_hash");
         s(v.wallet_index, "wallet_index");
 }
 
-void serialize(WalletTransactionDto &v, bytecoin::ISerializer &s) {
-        typedef std::underlying_type<bytecoin::WalletTransactionState>::type
+void serialize(WalletTransactionDto &v, brofistcoin::ISerializer &s) {
+        typedef std::underlying_type<brofistcoin::WalletTransactionState>::type
 StateType;
 
         StateType state = static_cast<StateType>(v.state);
         s(state, "state");
-        v.state = static_cast<bytecoin::WalletTransactionState>(state);
+        v.state = static_cast<brofistcoin::WalletTransactionState>(state);
 
         s(v.timestamp, "timestamp");
-        bytecoin::serializeBlockHeight(s, v.block_height, "block_height");
+        brofistcoin::serializeBlockHeight(s, v.block_height, "block_height");
         s(v.hash, "hash");
         s(v.total_amount, "total_amount");
         s(v.fee, "fee");
@@ -159,7 +159,7 @@ StateType;
         s(v.extra, "extra");
 }
 
-void serialize(WalletTransferDto &v, bytecoin::ISerializer &s) {
+void serialize(WalletTransferDto &v, brofistcoin::ISerializer &s) {
         s(v.address, "address");
         s(v.amount, "amount");
 
@@ -170,14 +170,14 @@ void serialize(WalletTransferDto &v, bytecoin::ISerializer &s) {
 
 std::string readCipher(common::IInputStream &source, const std::string &name) {
 	std::string cipher;
-	//	bytecoin::BinaryInputStreamSerializer s(source);
+	//	brofistcoin::BinaryInputStreamSerializer s(source);
 	seria::BinaryInputStream s(source);
 	s(cipher);  // , name
 
 	return cipher;
 }
 
-std::string decrypt(const std::string &cipher, bytecoin::WalletSerializerV1::CryptoContext &crypto_ctx) {
+std::string decrypt(const std::string &cipher, brofistcoin::WalletSerializerV1::CryptoContext &crypto_ctx) {
 	std::string plain;
 	plain.resize(cipher.size());
 
@@ -189,12 +189,12 @@ template<typename Object>
 void deserialize(Object &obj, const std::string &name, const std::string &plain) {
 	MemoryInputStream stream(plain.data(), plain.size());
 	seria::BinaryInputStream s(stream);
-	//	bytecoin::BinaryInputStreamSerializer s(stream);
+	//	brofistcoin::BinaryInputStreamSerializer s(stream);
 	s(obj);  // , common::StringView(name)
 }
 
 template<typename Object>
-void deserializeEncrypted(Object &obj, const std::string &name, bytecoin::WalletSerializerV1::CryptoContext &crypto_ctx,
+void deserializeEncrypted(Object &obj, const std::string &name, brofistcoin::WalletSerializerV1::CryptoContext &crypto_ctx,
     common::IInputStream &source) {
 	std::string cipher = readCipher(source, name);
 	std::string plain  = decrypt(cipher, crypto_ctx);
@@ -202,11 +202,11 @@ void deserializeEncrypted(Object &obj, const std::string &name, bytecoin::Wallet
 	deserialize(obj, name, plain);
 }
 
-/*bytecoin::WalletTransaction convert(const bytecoin::WalletLegacyTransaction
+/*brofistcoin::WalletTransaction convert(const brofistcoin::WalletLegacyTransaction
 &tx) {
-        bytecoin::WalletTransaction mtx;
+        brofistcoin::WalletTransaction mtx;
 
-        mtx.state         = bytecoin::WalletTransactionState::SUCCEEDED;
+        mtx.state         = brofistcoin::WalletTransactionState::SUCCEEDED;
         mtx.timestamp     = tx.timestamp;
         mtx.block_height  = tx.block_height;
         mtx.hash          = tx.hash;
@@ -220,8 +220,8 @@ void deserializeEncrypted(Object &obj, const std::string &name, bytecoin::Wallet
         return mtx;
 }*/
 
-/*bytecoin::WalletTransfer convert(const bytecoin::WalletLegacyTransfer &tr) {
-        bytecoin::WalletTransfer mtr;
+/*brofistcoin::WalletTransfer convert(const brofistcoin::WalletLegacyTransfer &tr) {
+        brofistcoin::WalletTransfer mtr;
 
         mtr.address = tr.address;
         mtr.amount  = tr.amount;
@@ -249,7 +249,7 @@ void ser_members(KeysStorage &v, ISeria &s) {
 }
 }
 
-namespace bytecoin {
+namespace brofistcoin {
 
 const uint32_t WalletSerializerV1::SERIALIZATION_VERSION = 5;
 
@@ -286,7 +286,7 @@ WalletSerializerV1::WalletSerializerV1(
 {}
 
 void WalletSerializerV1::load(const crypto::chacha8_key &key, common::IInputStream &source) {
-	//	bytecoin::BinaryInputStreamSerializer s(source);
+	//	brofistcoin::BinaryInputStreamSerializer s(source);
 	seria::BinaryInputStream s(source);
 	s.begin_object();
 
@@ -358,7 +358,7 @@ void WalletSerializerV1::load_wallet(common::IInputStream &source, const crypto:
 void WalletSerializerV1::load_wallet_v1(common::IInputStream &source, const crypto::chacha8_key &key) {
 	CryptoContext crypto_ctx;
 
-	//	bytecoin::BinaryInputStreamSerializer encrypted(source);
+	//	brofistcoin::BinaryInputStreamSerializer encrypted(source);
 	seria::BinaryInputStream encrypted(source);
 
 	encrypted(crypto_ctx.iv);  // , "iv"
@@ -370,7 +370,7 @@ void WalletSerializerV1::load_wallet_v1(common::IInputStream &source, const cryp
 	std::string plain = decrypt(cipher, crypto_ctx);
 
 	MemoryInputStream decrypted_stream(plain.data(), plain.size());
-	//	bytecoin::BinaryInputStreamSerializer serializer(decrypted_stream);
+	//	brofistcoin::BinaryInputStreamSerializer serializer(decrypted_stream);
 	seria::BinaryInputStream serializer(decrypted_stream);
 
 	load_wallet_v1_keys(serializer);
@@ -410,7 +410,7 @@ void WalletSerializerV1::load_wallet_v1_keys(seria::ISeria &s) {
 }
 
 /*void
-WalletSerializerV1::loadWalletV1Details(bytecoin::BinaryInputStreamSerializer&
+WalletSerializerV1::loadWalletV1Details(brofistcoin::BinaryInputStreamSerializer&
 serializer) {
   std::vector<WalletLegacyTransaction> txs;
   std::vector<WalletLegacyTransfer> trs;
@@ -422,7 +422,7 @@ serializer) {
 }*/
 
 uint32_t WalletSerializerV1::load_version(common::IInputStream &source) {
-	//	bytecoin::BinaryInputStreamSerializer s(source);
+	//	brofistcoin::BinaryInputStreamSerializer s(source);
 	seria::BinaryInputStream s(source);
 
 	uint32_t version = std::numeric_limits<uint32_t>::max();
@@ -432,7 +432,7 @@ uint32_t WalletSerializerV1::load_version(common::IInputStream &source) {
 }
 
 void WalletSerializerV1::load_iv(common::IInputStream &source, crypto::chacha8_iv &iv) {
-	//	bytecoin::BinaryInputStreamSerializer s(source);
+	//	brofistcoin::BinaryInputStreamSerializer s(source);
 	seria::BinaryInputStream s(source);
 
 	s.binary(static_cast<void *>(&iv.data), sizeof(iv.data));  // , "chacha_iv"
@@ -508,7 +508,7 @@ void WalletSerializerV1::load_wallets(common::IInputStream &source, CryptoContex
 		//		wallet.pendingBalance = dto.pendingBalance;
 		wallet.creation_timestamp = static_cast<Timestamp>(dto.creation_timestamp);
 		//		wallet.container =
-		// nullptr;//reinterpret_cast<bytecoin::ITransfersContainer*>(i); //dirty
+		// nullptr;//reinterpret_cast<brofistcoin::ITransfersContainer*>(i); //dirty
 		// hack.
 		// container
 		// field must be unique
@@ -758,4 +758,4 @@ tx.transferCount != 0) {
   }
 }*/
 
-}  // namespace bytecoin
+}  // namespace brofistcoin

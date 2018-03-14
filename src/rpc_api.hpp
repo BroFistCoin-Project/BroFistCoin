@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Brofistcoin developers.
 // Licensed under the GNU Lesser General Public License. See LICENSING.md for details.
 
 #pragma once
@@ -14,16 +14,16 @@
 // Common data structures used in all api calls.
 // Basic data types are serialized to Json as follows
 // bool - Bool
-// Amount, SignedAmount, Height, Timestamp, UnlockMoment, Difficulty, (u)int - Number. bytecoin does not use fractional
+// Amount, SignedAmount, Height, Timestamp, UnlockMoment, Difficulty, (u)int - Number. brofistcoin does not use fractional
 // numbers, but uses numbers as large as 2^64-1 for amounts, which is larger than 2^53 exactly representable in double
 // or JavaScript Number
-//     amounts large than ~91 million BCN cannot be represented exactly in JavaScript and other platforms using IEEE
+//     amounts large than ~91 million BFC cannot be represented exactly in JavaScript and other platforms using IEEE
 //     64-bit floating numbers, so you should use appropriate json/bigint library to handle large amounts
 // std::string, Hash, PublicKey, SecretKey, KeyImage, BinaryArray - String (hex)
 // std::vector - Array
 // std::map, struct - Object
-// bytecoin does not use Null, you should specify empty Array as [], empty string as "", empty Object as {}
-namespace bytecoin {
+// brofistcoin does not use Null, you should specify empty Array as [], empty string as "", empty Object as {}
+namespace brofistcoin {
 namespace api {
 
 struct EmptyStruct {};  // Used as a typedef for empty requests, which we have a lot
@@ -129,14 +129,14 @@ struct Balance {
 }
 
 // These messages encoded in JSON can be sent via http to walletd rpc address:port
-namespace bytecoin {
+namespace brofistcoin {
 namespace api {
 
 enum return_code {
-	BYTECOIND_DATABASE_ERROR    = 101,  // We hope we are out of disk space, otherwise blockchain DB is corrupted.
-	BYTECOIND_ALREADY_RUNNING   = 102,
+	BROFISTCOIND_DATABASE_ERROR    = 101,  // We hope we are out of disk space, otherwise blockchain DB is corrupted.
+	BROFISTCOIND_ALREADY_RUNNING   = 102,
 	WALLETD_BIND_PORT_IN_USE    = 103,
-	BYTECOIND_BIND_PORT_IN_USE  = 104,
+	BROFISTCOIND_BIND_PORT_IN_USE  = 104,
 	WALLET_FILE_READ_ERROR      = 205,
 	WALLET_FILE_UNKNOWN_VERSION = 206,
 	WALLET_FILE_DECRYPT_ERROR   = 207,
@@ -353,11 +353,11 @@ struct GetTransaction {
 }
 }
 
-// These messages encoded in JSON can be sent via http url /json_rpc3 to bytecoind rpc address:port
+// These messages encoded in JSON can be sent via http url /json_rpc3 to brofistcoind rpc address:port
 // or to binMethod() url encoded in unspecified binary format
-namespace bytecoin {
+namespace brofistcoin {
 namespace api {
-namespace bytecoind {
+namespace brofistcoind {
 
 inline std::string url() { return "/json_rpc"; }
 
@@ -372,7 +372,7 @@ struct GetStatus {
 };
 
 // Signature of this method will stabilize to the end of beta
-struct SyncBlocks {  // Used by walletd, block explorer, etc to sync to bytecoind
+struct SyncBlocks {  // Used by walletd, block explorer, etc to sync to brofistcoind
 	static std::string method() { return "sync_blocks"; }
 	static std::string binMethod() { return "/sync_blocks.bin"; }
 
@@ -382,11 +382,11 @@ struct SyncBlocks {  // Used by walletd, block explorer, etc to sync to bytecoin
 		Timestamp first_block_timestamp = 0;
 		uint32_t max_count              = MAX_COUNT / 10;
 	};
-	struct SyncBlock {  // Signatures are checked by bytecoind so usually they are of no interest
+	struct SyncBlock {  // Signatures are checked by brofistcoind so usually they are of no interest
 		api::BlockHeader header;
-		bytecoin::BlockTemplate
+		brofistcoin::BlockTemplate
 		    bc_header;  // the only method returning actual BlockHeader from blockchain, not api::BlockHeader
-		std::vector<bytecoin::TransactionPrefix>
+		std::vector<brofistcoin::TransactionPrefix>
 		    bc_transactions;  // the only method returning actual Transaction from blockchain, not api::Transaction
 		Hash base_transaction_hash;                         // BlockTemplate does not contain it
 		std::vector<std::vector<uint32_t>> global_indices;  // for each transaction
@@ -497,48 +497,48 @@ namespace seria {
 
 class ISeria;
 
-void ser_members(bytecoin::api::EmptyStruct &v, ISeria &s);
-void ser_members(bytecoin::api::Output &v, ISeria &s);
-void ser_members(bytecoin::api::BlockHeader &v, ISeria &s);
-void ser_members(bytecoin::api::Transfer &v, ISeria &s);
-void ser_members(bytecoin::api::Transaction &v, ISeria &s);
-void ser_members(bytecoin::api::Block &v, ISeria &s);
-void ser_members(bytecoin::api::Balance &v, ISeria &s);
+void ser_members(brofistcoin::api::EmptyStruct &v, ISeria &s);
+void ser_members(brofistcoin::api::Output &v, ISeria &s);
+void ser_members(brofistcoin::api::BlockHeader &v, ISeria &s);
+void ser_members(brofistcoin::api::Transfer &v, ISeria &s);
+void ser_members(brofistcoin::api::Transaction &v, ISeria &s);
+void ser_members(brofistcoin::api::Block &v, ISeria &s);
+void ser_members(brofistcoin::api::Balance &v, ISeria &s);
 
-void ser_members(bytecoin::api::walletd::GetAddresses::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetViewKeyPair::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateAddresses::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateAddresses::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetBalance::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetBalance::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetUnspents::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetUnspents::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetTransfers::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetTransfers::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateTransaction::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateTransaction::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateSendProof::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::CreateSendProof::Response &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetTransaction::Request &v, ISeria &s);
-void ser_members(bytecoin::api::walletd::GetTransaction::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetAddresses::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetViewKeyPair::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateAddresses::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateAddresses::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetBalance::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetBalance::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetUnspents::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetUnspents::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetTransfers::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetTransfers::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateTransaction::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateTransaction::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateSendProof::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::CreateSendProof::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetTransaction::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::walletd::GetTransaction::Response &v, ISeria &s);
 
-void ser_members(bytecoin::api::bytecoind::GetStatus::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetStatus::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SyncBlocks::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SyncBlocks::SyncBlock &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SyncBlocks::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SyncMemPool::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SyncMemPool::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetRandomOutputs::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetRandomOutputs::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SendTransaction::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SendTransaction::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::CheckSendProof::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::CheckSendProof::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetBlockTemplate::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetBlockTemplate::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::GetCurrencyId::Response &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SubmitBlock::Request &v, ISeria &s);
-void ser_members(bytecoin::api::bytecoind::SubmitBlockLegacy::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetStatus::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetStatus::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SyncBlocks::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SyncBlocks::SyncBlock &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SyncBlocks::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SyncMemPool::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SyncMemPool::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetRandomOutputs::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetRandomOutputs::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SendTransaction::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SendTransaction::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::CheckSendProof::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::CheckSendProof::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetBlockTemplate::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetBlockTemplate::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::GetCurrencyId::Response &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SubmitBlock::Request &v, ISeria &s);
+void ser_members(brofistcoin::api::brofistcoind::SubmitBlockLegacy::Response &v, ISeria &s);
 
 }  // namespace seria

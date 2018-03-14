@@ -10,7 +10,7 @@
 // All values below should only be used in code through Currency and Config classes, never directly.
 // This approach allows unlimited customization through config file/command line parameters
 // Never include this header into other headers
-namespace bytecoin {
+namespace brofistcoin {
 namespace parameters {
 
 const uint32_t CRYPTONOTE_MAX_BLOCK_NUMBER             = 500000000;
@@ -77,7 +77,7 @@ const char CRYPTONOTE_BLOCKS_FILENAME[]       = "blocks.bin";
 const char CRYPTONOTE_BLOCKINDEXES_FILENAME[] = "blockindexes.bin";
 }  // parameters
 
-const char CRYPTONOTE_NAME[] = "bytecoin";
+const char CRYPTONOTE_NAME[] = "brofistcoin";
 
 const uint8_t CURRENT_TRANSACTION_VERSION = 1;
 
