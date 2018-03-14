@@ -112,5 +112,7 @@ struct CheckpointData {
 	const char *blockId;
 };
 
-constexpr const CheckpointData CHECKPOINTS[] = { };
+constexpr const CheckpointData CHECKPOINTS[] = {
+	{,},
+};
 }  // CryptoNote
