@@ -113,6 +113,6 @@ struct CheckpointData {
 };
 
 constexpr const CheckpointData CHECKPOINTS[] = {
-	{,},
+	{NULL,NULL}
 };
 }  // CryptoNote
